@@ -1,180 +1,25 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WillPower Coach</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.5/babel.min.js"></script>
-  <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState } = React;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WillPower Coach - Начни с первого шага!</title>
+    <meta name="description" content="Приложение для работы с параличом воли, страхами и принятием решений через когнитивно-поведенческую терапию. Аналогии из спорта и предпринимательства." />
+    <meta name="author" content="WillPower Coach" />
+    <meta name="keywords" content="КПТ, паралич воли, когнитивно-поведенческая терапия, страхи, принятие решений, спорт, предпринимательство" />
 
-    const App = () => {
-      const [step, setStep] = useState(1);
-      const [situation, setSituation] = useState('');
-      const [thoughts, setThoughts] = useState('');
-      const [emotion, setEmotion] = useState(5);
-      const [challenge, setChallenge] = useState('');
-      const [action, setAction] = useState('');
-      const [journal, setJournal] = useState([]);
+    <meta property="og:title" content="WillPower Coach - Начни с первого шага!" />
+    <meta property="og:description" content="Научись преодолевать паралич воли и страхи через техники КПТ, аналогии из спорта и предпринимательства." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
-      const handleSave = () => {
-        setJournal([...journal, { situation, thoughts, emotion, challenge, action, date: new Date().toLocaleDateString() }]);
-        setStep(1);
-        setSituation('');
-        setThoughts('');
-        setEmotion(5);
-        setChallenge('');
-        setAction('');
-      };
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  </head>
 
-      const generateChallenge = () => {
-        const sportAnalogy = thoughts.includes('fail') ? 'In sports, every athlete fails but learns.' : 'Like a coach adjusts strategy, rethink your choice.';
-        setChallenge(sportAnalogy + ' Try a small step instead of perfection.');
-      };
-
-      return (
-        <div className="max-w-md mx-auto p-4 bg-gray-100 h-screen flex flex-col">
-          {step === 1 && (
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold mb-4">WillPower Coach: Overcome Paralysis</h1>
-              <p className="mb-2">Step 1: Describe your situation (e.g., "Can't decide to start freelancing").</p>
-              <textarea
-                className="w-full p-2 border rounded"
-                value={situation}
-                onChange={(e) => setSituation(e.target.value)}
-                placeholder="What's paralyzing you?"
-              />
-              <button
-                className="mt-4 bg-blue-500 text-white p-2 rounded"
-                onClick={() => setStep(2)}
-                disabled={!situation}
-              >
-                Next
-              </button>
-            </div>
-          )}
-          {step === 2 && (
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold mb-4">Step 2: Your Thoughts</h1>
-              <p className="mb-2">What thoughts come up? (e.g., "I'll fail and lose money.")</p>
-              <textarea
-                className="w-full p-2 border rounded"
-                value={thoughts}
-                onChange={(e) => setThoughts(e.target.value)}
-                placeholder="Your automatic thoughts"
-              />
-              <button className="mt-4 bg-blue-500 text-white p-2 rounded" onClick={() => setStep(3)}>
-                Next
-              </button>
-            </div>
-          )}
-          {step === 3 && (
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold mb-4">Step 3: Emotions</h1>
-              <p className="mb-2">How intense is your fear? (1-10)</p>
-              <input
-                type="range"
-                min="1"
-                max="10"
-                value={emotion}
-                onChange={(e) => setEmotion(e.target.value)}
-                className="w-full"
-              />
-              <p className="mt-2">Intensity: {emotion}</p>
-              <button className="mt-4 bg-blue-500 text-white p-2 rounded" onClick={() => { generateChallenge(); setStep(4); }}>
-                Challenge Thoughts
-              </button>
-            </div>
-          )}
-          {step === 4 && (
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold mb-4">Step 4: Challenge Your Thoughts</h1>
-              <p className="mb-2">Your thought: "{thoughts}"</p>
-              <p className="mb-2">Challenge: {challenge}</p>
-              <button className="mt-4 bg-blue-500 text-white p-2 rounded" onClick={() => setStep(5)}>
-                Next
-              </button>
-            </div>
-          )}
-          {step === 5 && (
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold mb-4">Step 5: Take Action</h1>
-              <p className="mb-2">Choose a small action (e.g., "Research freelancing for 15 min").</p>
-              <textarea
-                className="w-full p-2 border rounded"
-                value={action}
-                onChange={(e) => setAction(e.target.value)}
-                placeholder="Your small step"
-              />
-              <button className="mt-4 bg-green-500 text-white p-2 rounded" onClick={handleSave}>
-                Save to Journal
-              </button>
-            </div>
-          )}
-          {journal.length > 0 && (
-            <div className="mt-4">
-              <h2 className="text-xl font-bold">Your Pain Journal</h2>
-              {journal.map((entry, index) => (
-                <div key={index} className="border p-2 mt-2 rounded">
-                  <p><strong>{entry.date}</strong>: {entry.situation}</p>
-                  <p>Thought: {entry.thoughts}</p>
-                  <p>Emotion: {entry.emotion}/10</p>
-                  <p>Challenge: {entry.challenge}</p>
-                  <p>Action: {entry.action}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      );
-    };
-
-    ReactDOM.render(<App />, document.getElementById('root'));
-  </script>
-</body>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

@@ -43,7 +43,7 @@ export const NavigationHeader = ({
                 WillPower Coach
               </h1>
               <p className="text-xs text-muted-foreground -mt-1">
-                Преодолей паралич воли
+                Начни с первого шага
               </p>
             </div>
           </div>

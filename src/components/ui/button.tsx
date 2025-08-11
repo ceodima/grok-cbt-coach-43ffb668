@@ -21,7 +21,8 @@ const buttonVariants = cva(
         strength: "bg-gradient-strength text-primary-foreground hover:shadow-strength transform hover:scale-105 transition-bounce",
         growth: "bg-gradient-growth text-secondary-foreground hover:shadow-growth transform hover:scale-105 transition-bounce",
         action: "bg-gradient-action text-accent-foreground hover:shadow-elegant transform hover:scale-105 transition-bounce",
-        hero: "bg-gradient-hero text-primary-foreground hover:shadow-strength px-8 py-6 text-lg font-semibold transform hover:scale-105 transition-bounce",
+        hero: "bg-gradient-hero text-primary-foreground hover:shadow-neon px-8 py-6 text-lg font-semibold transform hover:scale-105 transition-bounce",
+        neon: "bg-gradient-neon text-accent-foreground hover:shadow-neon transform hover:scale-105 transition-glow shadow-elegant",
       },
       size: {
         default: "h-10 px-4 py-2",
