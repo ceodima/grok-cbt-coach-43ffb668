@@ -69,19 +69,16 @@ export default {
 				'gradient-strength': 'var(--gradient-strength)',
 				'gradient-growth': 'var(--gradient-growth)', 
 				'gradient-action': 'var(--gradient-action)',
-				'gradient-hero': 'var(--gradient-hero)',
-				'gradient-neon': 'var(--gradient-neon)'
+				'gradient-hero': 'var(--gradient-hero)'
 			},
 			boxShadow: {
 				'strength': 'var(--shadow-strength)',
 				'growth': 'var(--shadow-growth)',
-				'elegant': 'var(--shadow-elegant)',
-				'neon': 'var(--shadow-neon)'
+				'elegant': 'var(--shadow-elegant)'
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)',
-				'bounce': 'var(--transition-bounce)',
-				'glow': 'var(--transition-glow)'
+				'bounce': 'var(--transition-bounce)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
