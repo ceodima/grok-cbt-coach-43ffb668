@@ -87,8 +87,8 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <NavigationHeader 
+    <div className="min-h-screen bg-background dark">
+      <NavigationHeader
         userName="Александр"
         userLevel={3}
         notificationCount={2}
