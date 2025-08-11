@@ -104,7 +104,7 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-hero/80" />
           <div className="relative z-10 p-8 md:p-12 text-center">
             <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">
-              Преодолей паралич воли
+              Начни с первого шага!
             </h1>
             <p className="text-lg md:text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
               Как спортсмен преодолевает страх перед прыжком, так и ты можешь преодолеть страх принятия решений в бизнесе и жизни
